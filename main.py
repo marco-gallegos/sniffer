@@ -3,6 +3,9 @@ import socket
 import struct
 import time
 import binascii
+
+
+import os
 #import textwrap
 #seccion d03
 decorador = "\t - "
@@ -12,8 +15,16 @@ def main():
     #conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
     conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
     #conn = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.htons(0x0806))
-
+    opc = 0
+    while opc != 1 or opc != 2:
+        os.system("clear")
+        opc = int(input("1 - Paquetes ip\n2 - P aquetes arp\n--> "))
+        if opc == 3:
+            exit()
+        
     while True:
+
+
         #raw_data, addr = conn.recvfrom(65535)
         #reducir
         raw_data = conn.recvfrom(2048)
