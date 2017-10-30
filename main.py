@@ -15,27 +15,42 @@ def main():
     #conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
     conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
     #conn = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.htons(0x0806))
-    opc = 0
-    while opc != 1 or opc != 2:
+    opc = 1
+    eth_proto = 0
+    ethertype = 0
+
+
+    while True:
         os.system("clear")
         opc = int(input("1 - Paquetes ip\n2 - P aquetes arp\n--> "))
+        print(str(type(opc)) +"  "+ str(opc))
         if opc == 3:
             exit()
+        elif opc != 1 or opc != 2 :
+            break
         
     while True:
+        raw_data = conn.recvfrom(2048)
 
+        if opc ==1 :
+            dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data[0])
+        else :
+            ethernet_detailed = struct.unpack("!6s6s2s", raw_data[0][0:14])
+            arp_header = raw_data[0][14:42]
+            arp_detailed = struct.unpack("2s2s1s1s2s6s4s6s4s", arp_header)
+            ethertype = ethernet_detailed[2]
 
         #raw_data, addr = conn.recvfrom(65535)
         #reducir
-        raw_data = conn.recvfrom(2048)
-        dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data[0])
+        #raw_data = conn.recvfrom(2048)
+        #dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data[0])
         #eth_proto = 0
         #print("\nEthernet Frame")
         #print(("destino {}, origen {} ".format(dest_mac, src_mac)))
-        ethernet_detailed = struct.unpack("!6s6s2s", raw_data[0][0:14])
-        arp_header = raw_data[0][14:42]
-        arp_detailed = struct.unpack("2s2s1s1s2s6s4s6s4s", arp_header)
-        ethertype = ethernet_detailed[2]
+        #ethernet_detailed = struct.unpack("!6s6s2s", raw_data[0][0:14])
+        #arp_header = raw_data[0][14:42]
+        #arp_detailed = struct.unpack("2s2s1s1s2s6s4s6s4s", arp_header)
+        #ethertype = ethernet_detailed[2]
 
 
         if eth_proto == 8:
