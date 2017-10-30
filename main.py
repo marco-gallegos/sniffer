@@ -54,6 +54,7 @@ def main():
 
 
         if eth_proto == 8:
+            print("paquete ipv4")
             continue
             print((decorador + "Paquete IP"))
             (version, header_lenght, ttl, proto, src, target, data) = ipv4_packet(data)
