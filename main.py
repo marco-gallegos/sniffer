@@ -22,7 +22,7 @@ def main():
 
     while True:
         os.system("clear")
-        opc = int(input("1 - Paquetes ip\n2 - P aquetes arp\n--> "))
+        opc = int(input("1 - Paquetes ip\n2 - Paquetes arp\n--> "))
         print(str(type(opc)) +"  "+ str(opc))
         if opc == 3:
             exit()
@@ -53,7 +53,7 @@ def main():
         #ethertype = ethernet_detailed[2]
 
 
-        if eth_proto == 8:
+        if eth_proto == 88:
             print("paquete ipv4")
             continue
             print((decorador + "Paquete IP"))
@@ -73,26 +73,26 @@ def main():
             print((decorador + "IP destino      " + str(target)))
             print((decorador + "ttl             " + str(ttl)))
         elif ethertype == '\x08\x06':
-            print ("******************_ARP_HEADER_******************")
+            print ("****************** paquete ARP******************")
             #print ("Hardware type:   ", binascii.hexlify(arp_detailed[0]))
             print ("Protocolo    :   ", binascii.hexlify(arp_detailed[1]))
             #print ("Hardware size:   ", binascii.hexlify(arp_detailed[2]))
             #print ("Protocol size:   ", binascii.hexlify(arp_detailed[3]))
             #print ("Opcode:          ", binascii.hexlify(arp_detailed[4]))
-            print ("Origen MAC   :   ", binascii.hexlify(arp_detailed[5]))
+            print ("Origen MAC   :   ", binascii.hexlify(arp_detailed[5]), get_mac_addres(arp_detailed[5]))
             print ("Origen IP    :   ", socket.inet_ntoa(arp_detailed[6]))
             print ("Destino MAC  :   ", binascii.hexlify(arp_detailed[7]))
             print ("Destino IP   :   ", socket.inet_ntoa(arp_detailed[8]))
             print ("*************************************************\n")
         else:
+            if opc == 1:
+                print("\nEthernet Frame")
+                print(("destino {}, origen {} ".format(dest_mac, src_mac)))
+                print("Paquete no identificado")
+                print("tipo "+str(eth_proto))
+                #time.sleep(20)
             
-            continue
-            print("\nEthernet Frame")
-            print(("destino {}, origen {} ".format(dest_mac, src_mac)))
-            print("Paquete no identificado")
-            print("tipo "+str(eth_proto))
-            #time.sleep(20)
-        #time.sleep(5)
+        time.sleep(5)
 
 
 # 1 traducir el paquete python
