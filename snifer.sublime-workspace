@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"el",
+				"elif\telif"
+			],
+			[
 				"get",
 				"get_mac_addres〔function〕"
 			],
@@ -163,7 +167,7 @@
 			"file": "main.py",
 			"settings":
 			{
-				"buffer_size": 5519,
+				"buffer_size": 7431,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -197,7 +201,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 592.0
+		"width": 603.0
 	},
 	"console":
 	{
@@ -268,7 +272,7 @@
 	],
 	"find":
 	{
-		"height": 27.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -282,6 +286,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ipv4"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -308,15 +313,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5519,
+						"buffer_size": 7431,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4741,
-								4741
+								4000,
+								4000
 							]
 						],
 						"settings":
@@ -327,27 +332,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										3715,
-										3716
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/round_bracket.png",
-										"brackethighlighter.default"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										3692,
-										3693
-									]
 								},
 								"unmatched":
 								{
@@ -417,7 +407,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 1322.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -428,7 +418,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -465,7 +455,7 @@
 	"project": "snifer.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -503,7 +493,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 225.0,
+	"side_bar_width": 213.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
