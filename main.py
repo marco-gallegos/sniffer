@@ -4,10 +4,8 @@ from socket import inet_ntop, AF_INET6
 import struct
 import time
 import binascii
-
-
 import os
-#import textwrap
+
 #seccion d03
 decorador = "\t - "
 
@@ -16,12 +14,12 @@ def main():
     #conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
     conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
     #conn = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.htons(0x0806))
-    opc = 1
+    opc = 0
     eth_proto = 0
     ethertype = 0
 
 
-    while True:
+    while False:
         os.system("clear")
         opc = input("1 - Paquetes ip\n2 - Paquetes arp e ipv6\n--> ")
         opc = int(opc)
@@ -48,7 +46,7 @@ def main():
 
             #if (ethertype != '0x800'): #IP/IPV4 frame ethertype. check if_ether.h for other ether protocol hex values.
                 #print(ethertype)
-
+        dest_mac, src_mac, ethertype, data = ethernet_frame(raw_data[0])
         #raw_data, addr = conn.recvfrom(65535)
         #reducir
         #raw_data = conn.recvfrom(2048)
@@ -64,10 +62,10 @@ def main():
         #IPv6_ID = "0x86DD"  # IPv6 Packet
 
 
-        if eth_proto == 8:
-            
-            print("paquete ipv4")
-            print((decorador + "Paquete IP"))
+
+        if  ethertype == '0x800':
+
+            print("Paquete ipv4")
             (version, header_lenght, ttl, proto, src, target, data) = ipv4_packet(data)
             print((decorador + "version         " + str(version)))
             if proto == 1:
@@ -83,23 +81,25 @@ def main():
             print((decorador + "IP origen       " + str(src)))
             print((decorador + "IP destino      " + str(target)))
             print((decorador + "ttl             " + str(ttl)))
-        elif ethertype == '0x800':
-            continue
-            print("paquete ipv4")
+            print((decorador str(data)) )
         elif ethertype == '0x806':
-            continue
+            ethernet_detailed = struct.unpack("!6s6s2s", raw_data[0][0:14])
+            arp_header = raw_data[0][14:42]
+            arp_detailed = struct.unpack("2s2s1s1s2s6s4s6s4s", arp_header)
+            ethertype = ethernet_detailed[2]
             print ("****************** paquete ARP******************")
-            #print ("Hardware type:   ", binascii.hexlify(arp_detailed[0]))
+            print ("Hardware type:   ", binascii.hexlify(arp_detailed[0]))
             print ("Protocolo    :   ", binascii.hexlify(arp_detailed[1]))
-            #print ("Hardware size:   ", binascii.hexlify(arp_detailed[2]))
-            #print ("Protocol size:   ", binascii.hexlify(arp_detailed[3]))
-            #print ("Opcode:          ", binascii.hexlify(arp_detailed[4]))
-            print ("Origen MAC   :   ", binascii.hexlify(arp_detailed[5]), get_mac_addres(arp_detailed[5]))
+            print ("Hardware size:   ", binascii.hexlify(arp_detailed[2]))
+            print ("Protocol size:   ", binascii.hexlify(arp_detailed[3]))
+            print ("Opcode:          ", binascii.hexlify(arp_detailed[4]))
+            print ("Origen MAC   :   ", get_mac_addres(arp_detailed[5]))
             print ("Origen IP    :   ", socket.inet_ntoa(arp_detailed[6]))
-            print ("Destino MAC  :   ", binascii.hexlify(arp_detailed[7]))
+            print ("Destino MAC  :   ", get_mac_addres(arp_detailed[7]))
             print ("Destino IP   :   ", socket.inet_ntoa(arp_detailed[8]))
             print ("*************************************************\n")
         elif ethertype == '0x86dd':
+            
             #print("ipv6")
             #data = raw_data[14:]
             data = struct.unpack('!4sHBB16s16s', raw_data[0][14:54])
@@ -116,15 +116,10 @@ def main():
                 ipv6type = data[3]
                 
             print ("****************** paquete ipv6******************")
-            #print ("Hardware type:   ", binascii.hexlify(arp_detailed[0]))
             print ("Protocolo    :   ", ipv6type)
-            #print ("Hardware size:   ", binascii.hexlify(arp_detailed[2]))
-            #print ("Protocol size:   ", binascii.hexlify(arp_detailed[3]))
-            #print ("Opcode:          ", binascii.hexlify(arp_detailed[4]))
             print ("Origen IP    :   ", str(inet_ntop(AF_INET6, data[4])))
             print ("Destino IP   :   ", str(inet_ntop(AF_INET6, data[5])))
-            print ("*************************************************\n")
-            
+            print ("*************************************************\n")            
             
         else:
             if opc == 1:
@@ -144,8 +139,13 @@ def main():
 # 1 traducir el paquete python
 
 def ethernet_frame(data):
-    dest_mac, source_mac, proto = struct.unpack('! 6s 6s H', data[:14])
-    return get_mac_addres(dest_mac), get_mac_addres(source_mac), socket.htons(proto), data[14:]
+    #dest_mac, source_mac, proto = struct.unpack('! 6s 6s H', data[:14])
+    eth = struct.unpack('! 6s 6s H', data[:14])
+    dest_mac = eth[0]
+    source_mac = eth[1]
+    proto = eth[2]
+    proto = hex(proto)
+    return get_mac_addres(dest_mac), get_mac_addres(source_mac), proto, data[14:]
 
 # regresar mac  qq:ww:gr:sd:qw
 
