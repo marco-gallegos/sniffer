@@ -175,7 +175,7 @@
 			"file": "main.py",
 			"settings":
 			{
-				"buffer_size": 7489,
+				"buffer_size": 7432,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -281,7 +281,7 @@
 	],
 	"find":
 	{
-		"height": 36.0
+		"height": 25.0
 	},
 	"find_in_files":
 	{
@@ -323,15 +323,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7489,
+						"buffer_size": 7432,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3121,
-								3121
+								2143,
+								2143
 							]
 						],
 						"settings":
@@ -490,7 +490,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1162.0,
+						"translation.y": 1071.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -501,7 +501,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 25.0
 	},
 	"input":
 	{
@@ -538,7 +538,7 @@
 	"project": "snifer.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 46.0
 	},
 	"save_all_on_build": true,
 	"select_file":

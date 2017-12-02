@@ -64,7 +64,7 @@ def main():
 
 
         if  ethertype == '0x800':
-
+            
             print("Paquete ipv4")
             (version, header_lenght, ttl, proto, src, target, data) = ipv4_packet(data)
             print((decorador + "version         " + str(version)))
@@ -81,7 +81,7 @@ def main():
             print((decorador + "IP origen       " + str(src)))
             print((decorador + "IP destino      " + str(target)))
             print((decorador + "ttl             " + str(ttl)))
-            print((decorador str(data)) )
+            print((decorador + "Datos           " + str(data)) )
         elif ethertype == '0x806':
             ethernet_detailed = struct.unpack("!6s6s2s", raw_data[0][0:14])
             arp_header = raw_data[0][14:42]
