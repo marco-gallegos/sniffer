@@ -9,63 +9,23 @@ import os
 #seccion d03
 decorador = "\t - "
 
-
 def main():
-    #conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
     conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0003))
-    #conn = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.htons(0x0806))
     opc = 0
     eth_proto = 0
     ethertype = 0
-
-
-    while False:
-        os.system("clear")
-        opc = input("1 - Paquetes ip\n2 - Paquetes arp e ipv6\n--> ")
-        opc = int(opc)
-        #opc=2
-        #print(str(type(opc)) +"  "+ str(opc))
-        if opc == 3:
-            exit()
-        elif opc != 1 or opc != 2 :
-            break
         
     while True:
         raw_data = conn.recvfrom(2048)
 
-        if opc ==1 :
-            dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data[0])
-        else :
-            ethernet_detailed = struct.unpack("!6s6sH", raw_data[0][0:14])
-            #arp_header = raw_data[0][14:42]
-            #arp_detailed = struct.unpack("2s2s1s1s2s6s4s6s4s", arp_header)
-            ethertype = ethernet_detailed[2]
-            ethertype = hex(ethertype)
-            #print(ethertype)
-            #print(ethernet_detailed)
-
-            #if (ethertype != '0x800'): #IP/IPV4 frame ethertype. check if_ether.h for other ether protocol hex values.
-                #print(ethertype)
-        dest_mac, src_mac, ethertype, data = ethernet_frame(raw_data[0])
-        #raw_data, addr = conn.recvfrom(65535)
-        #reducir
-        #raw_data = conn.recvfrom(2048)
-        #dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data[0])
-        #eth_proto = 0
-        #print("\nEthernet Frame")
-        #print(("destino {}, origen {} ".format(dest_mac, src_mac)))
-        #ethernet_detailed = struct.unpack("!6s6s2s", raw_data[0][0:14])
-        #arp_header = raw_data[0][14:42]
-        #arp_detailed = struct.unpack("2s2s1s1s2s6s4s6s4s", arp_header)
-        #ethertype = ethernet_detailed[2]
-
-        #IPv6_ID = "0x86DD"  # IPv6 Packet
-
-
+        ethernet_detailed = struct.unpack("!6s6sH", raw_data[0][0:14])       
+        ethertype = ethernet_detailed[2]
+        ethertype = hex(ethertype)
+            
 
         if  ethertype == '0x800':
-            
             print("Paquete ipv4")
+            data = raw_data[0][14:]
             (version, header_lenght, ttl, proto, src, target, data) = ipv4_packet(data)
             print((decorador + "version         " + str(version)))
             if proto == 1:
@@ -100,8 +60,6 @@ def main():
             print ("*************************************************\n")
         elif ethertype == '0x86dd':
             
-            #print("ipv6")
-            #data = raw_data[14:]
             data = struct.unpack('!4sHBB16s16s', raw_data[0][14:54])
             
             if int(data[2]) == 17 :
@@ -122,17 +80,8 @@ def main():
             print ("*************************************************\n")            
             
         else:
-            if opc == 1:
-                print("\nEthernet Frame")
-                print(("destino {}, origen {} ".format(dest_mac, src_mac)))
-                print("Paquete no identificado")
-                print("tipo "+str(eth_proto))
-                #time.sleep(20)
-            else:
-                print("ethertype : "+str(ethertype))
-                raw_data == None
-            
-            
+            print("ethertype : "+str(ethertype))
+            raw_data == None
         #time.sleep(5)
 
 
